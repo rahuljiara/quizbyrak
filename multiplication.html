@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz By :- Rak</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Creepster&family=Rampart+One&display=swap');
+
+/*  Font  should be use 
+    font-family: 'Rampart One', cursive;
+    font-family: 'Black Ops One', cursive;
+    font-family: 'Creepster', cursive; */
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(189, 144, 22, 0.493);
+        }
+
+        #head {
+            position: absolute;
+            top: 3%;
+            font-family: 'Rampart One', cursive;
+            font-size: 60px;
+            color:rgb(10, 92, 92);
+        }
+
+        .container {
+            background-color: rgba(97, 241, 7, 0.325);
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+            /* height:280px; */
+            width: 500px;
+            box-shadow: -2px 10px 20px rgba(0, 0, 0, 0.533);
+            text-align: center;
+        }
+
+        .score {
+            text-align: right;
+            text-shadow: 1px 2px 10px rgba(0, 0, 0, 0.6)
+        }
+
+        h2 {
+            font-size: 35px;
+            text-shadow: 1px 2px 10px rgba(0, 0, 0, 0.6)
+        }
+
+        #input {
+            display: block;
+            box-sizing: border-box;
+            /*   To align in center bcz block elemnt calculate border too*/
+            width: 100%;
+            text-align: center;
+            height: 50px;
+            margin-bottom: 15px;
+            outline: none;
+            border: 0;
+            border-radius: 50px;
+            box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        #btn1 {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 15px;
+            background-color: rgb(24, 68, 134);
+            border: 0;
+            border-radius: 50px;
+            box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
+            color:wheat;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        #btn2 {
+            position: absolute;
+            top:35px;
+            left:20px; 
+            width: 81px;   
+            height: 30px;
+            margin-bottom: 15px;
+            background-color: rgb(255, 135, 15);
+            border: 0;
+            border-radius: 50px;
+            box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
+            color:rgb(0, 0, 0);
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        #num1,
+        #num2 {
+            color: rgb(219, 13, 13);
+        }
+
+
+        @media screen and (max-width:600px){
+            .container {
+            width: 90%;
+            margin:0 5%;
+        }
+        #head {
+            position: absolute;
+            top: 0;
+
+            font-size: 50px;
+
+        }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="head"> Quiz By Rak
+            
+    </h1>
+    <form class="container" id="form">
+        <h3 class="score" id="score"> </h3>
+        <h2>What is <span id="num1">X</span> Multiply By <span id="num2">Y</span> ? </h2>
+        <input type="text" placeholder="Submit Your Answer" autofocus="on" autocomplete="off" id="input">
+        <!-- Autofocus - marker inside the input text 
+             autocomplete - Suggest answer on the basis of previous history -->
+        <button type="submit" id="btn1">Sumbit </button>
+        <button type="reset" id="btn2">Reset Score</button>
+    </form>
+
+
+    <script >
+        var num1Field = document.getElementById("num1");
+var num2Field = document.getElementById("num2");
+var scoreField = document.getElementById("score");
+var inputField = document.getElementById("input");
+var btnField = document.getElementById("btn1");
+var form = document.getElementById("form");
+var reset = document.getElementById("btn2");
+
+
+
+let score = JSON.parse(localStorage.getItem("score")); // convert into number to get the value 
+if (!score) {
+    score = 0; // setting score zro when when score is empty
+}
+scoreField.innerText = ` Score : ${score} `;
+
+
+
+
+
+let n1 = Math.ceil(Math.random() * 30);
+let n2 = Math.ceil(Math.random() * 10);
+
+num1Field.innerText = n1;
+num2Field.innerText = n2;
+
+
+const correctAns = n1 * n2;
+console.log("Answer", correctAns)
+
+form.addEventListener('submit', function () {
+    const userAns = +inputField.value;
+    // type of user ans is string to convert this into the number just add + before the value addding 
+
+    if (userAns === correctAns) { // === is comparison operator We compare userAns with CorrectAns to check entered Answer is correct or not .
+        score++;
+        scoreLocalStorage()
+    }
+    else {
+        userAns
+        score--;
+
+        scoreLocalStorage()
+    }
+})
+
+function scoreLocalStorage() {
+    localStorage.setItem("score", JSON.stringify(score));
+
+    if (userAns === correctAns) {
+        score++;   // This will not change value of score bcz we have set the value zero to work get item from localstorage
+    } else {
+        score--;
+    }
+}
+
+
+reset.addEventListener("click", () => {
+    localStorage.removeItem("score");
+    score = 0;
+    scoreField.innerText = `Score : ${score}`
+})
+
+    </script>
+</body>
+
+</html>
